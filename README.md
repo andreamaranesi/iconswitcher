@@ -11,7 +11,7 @@ CODE:
 ```dart
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'iconswitcher.dart';
+import 'package:iconswitcher/iconswitcher.dart';
 
 class screen extends StatefulWidget {
   @override
