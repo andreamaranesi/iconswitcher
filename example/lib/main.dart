@@ -1,58 +1,69 @@
 import 'package:flutter/material.dart';
-import 'dart:async';
-
-import 'package:flutter/services.dart';
 import 'package:iconswitcher/iconswitcher.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(screen());
 }
 
-class MyApp extends StatefulWidget {
+
+class screen extends StatefulWidget {
   @override
-  _MyAppState createState() => _MyAppState();
+  State<StatefulWidget> createState() {
+    return _screen();
+  }
 }
 
-class _MyAppState extends State<MyApp> {
-  String _platformVersion = 'Unknown';
-
-  @override
-  void initState() {
-    super.initState();
-    initPlatformState();
-  }
-
-  // Platform messages are asynchronous, so we initialize in an async method.
-  Future<void> initPlatformState() async {
-    String platformVersion;
-    // Platform messages may fail, so we use a try/catch PlatformException.
-    try {
-      platformVersion = await IconSwitcher.platformVersion;
-    } on PlatformException {
-      platformVersion = 'Failed to get platform version.';
-    }
-
-    // If the widget was removed from the tree while the asynchronous platform
-    // message was in flight, we want to discard the reply rather than calling
-    // setState to update our non-existent appearance.
-    if (!mounted) return;
-
-    setState(() {
-      _platformVersion = platformVersion;
-    });
-  }
+class _screen extends State<screen> with TickerProviderStateMixin {
+  bool left = true;
+  Duration duration = Duration(milliseconds: 400);
 
   @override
   Widget build(BuildContext context) {
+    double marginTop = 1.5;
+    double height = kToolbarHeight - marginTop * 2;
+    double width = height * 2;
+
     return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-          title: const Text('Plugin example app'),
+        debugShowCheckedModeBanner: false,
+        home:Scaffold(
+          backgroundColor: Colors.white,
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        title: Text(
+          "Title",
         ),
-        body: Center(
-          child: Text('Running on: $_platformVersion\n'),
-        ),
+        actions: <Widget>[
+          IconSwitcher(
+            width: width,
+            height: height,
+            marginTop: marginTop,
+            color1: Colors.purple,
+            color2: Colors.white,
+            icon1: Icons.satellite,
+            icon2: Icons.content_copy,
+            backgroundColor: Colors.black,
+            duration: duration,
+            onChange: (bool result) {
+              setState(() {
+                left = result;
+              });
+            },
+          )
+        ],
       ),
-    );
+      body: AnimatedCrossFade(
+        firstChild: Container(
+          color: Colors.black54,
+        ),
+        secondChild: Container(
+          color: Colors.orange,
+        ),
+        duration: duration,
+        crossFadeState:
+        left ? CrossFadeState.showFirst : CrossFadeState.showSecond,
+        firstCurve: Curves.bounceOut,
+        secondCurve: Curves.bounceOut,
+      ),
+    ));
   }
 }
