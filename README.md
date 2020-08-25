@@ -1,18 +1,76 @@
-# iconswitcher
+# IconSwitcher
 
-A new Flutter plugin.
+A Flutter plugin that allows you to create an icon switcher on the AppBar Widget
 
-## Getting Started
+EXAMPLE OF USAGE
 
-This project is a starting point for a Flutter
-[plug-in package](https://flutter.dev/developing-packages/),
-a specialized package that includes platform-specific implementation code for
-Android and/or iOS.
+You can use it to create multiple screen views inside a same Widget using all the Flutter Animated Widgets
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+CODE:
 
-The plugin project was generated without specifying the `--platforms` flag, no platforms are currently supported.
-To add platforms, run `flutter create -t plugin --platforms <platforms> .` under the same
-directory. You can also find a detailed instruction on how to add platforms in the `pubspec.yaml` at https://flutter.dev/docs/development/packages-and-plugins/developing-packages#plugin-platforms.
+```dart
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'iconswitcher.dart';
+
+class screen extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() {
+    return _screen();
+  }
+}
+
+class _screen extends State<screen> with TickerProviderStateMixin {
+  bool left = true;
+  Duration duration = Duration(milliseconds: 400);
+
+  @override
+  Widget build(BuildContext context) {
+    double marginTop = 1.5;
+    double height = kToolbarHeight - marginTop * 2;
+    double width = height * 2;
+
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        title: Text(
+          "prova",
+        ),
+        actions: <Widget>[
+          IconSwitcher(
+            width: width,
+            height: height,
+            marginTop: marginTop,
+            color1: Colors.purple,
+            color2: Colors.white,
+            icon1: Icons.satellite,
+            icon2: Icons.content_copy,
+            backgroundColor: Colors.black,
+            duration: duration,
+            onChange: (bool result) {
+              setState(() {
+                left = result;
+              });
+            },
+          )
+        ],
+      ),
+      body: AnimatedCrossFade(
+        firstChild: Container(
+          color: Colors.black54,
+        ),
+        secondChild: Container(
+          color: Colors.orange,
+        ),
+        duration: duration,
+        crossFadeState:
+            left ? CrossFadeState.showFirst : CrossFadeState.showSecond,
+        firstCurve: Curves.bounceOut,
+        secondCurve: Curves.bounceOut,
+      ),
+    );
+  }
+}
+
+
+```

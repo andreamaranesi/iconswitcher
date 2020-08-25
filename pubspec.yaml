@@ -1,7 +1,6 @@
 name: iconswitcher
 description: A plugin to create an icon switcher to put on the AppBar Widget
 version: 1.0.0
-author: Andrea Maranesi (@dremardesign)
 homepage: https://github.com/andreamaranesi/iconswitcher
 
 environment:

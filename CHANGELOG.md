@@ -1,3 +1,3 @@
-## 0.0.1
+# # 1.0.0
 
-* TODO: Describe initial release.
+First release: a Widget that allows you to create on your AppBar two icons with which you can create multiple screen views.
