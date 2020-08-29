@@ -41,6 +41,8 @@ class _screen extends State<screen> with TickerProviderStateMixin {
             color2: Colors.white,
             icon1: Icons.satellite,
             icon2: Icons.content_copy,
+            firstIconSelectedColor: Colors.redAccent,
+            secondIconSelectedColor: Colors.orangeAccent,
             backgroundColor: Colors.black,
             duration: duration,
             onChange: (bool result) {

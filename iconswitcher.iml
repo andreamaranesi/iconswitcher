@@ -11,6 +11,12 @@
       <excludeFolder url="file://$MODULE_DIR$/example/.dart_tool" />
       <excludeFolder url="file://$MODULE_DIR$/example/.pub" />
       <excludeFolder url="file://$MODULE_DIR$/example/build" />
+      <excludeFolder url="file://$MODULE_DIR$/iconswitcher/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/iconswitcher/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/iconswitcher/build" />
+      <excludeFolder url="file://$MODULE_DIR$/iconswitcher/example/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/iconswitcher/example/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/iconswitcher/example/build" />
     </content>
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="Dart SDK" level="project" />

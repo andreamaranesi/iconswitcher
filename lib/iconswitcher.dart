@@ -4,8 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-
-class iconException implements Exception{
+class iconException implements Exception {
   final message;
 
   iconException(this.message);
@@ -16,41 +15,58 @@ class iconException implements Exception{
   }
 }
 
-class IconSwitcher extends StatefulWidget{
-
-  static const MethodChannel _channel =
-  const MethodChannel('iconswitcher');
+class IconSwitcher extends StatefulWidget {
+  static const MethodChannel _channel = const MethodChannel('iconswitcher');
 
   static Future<String> get platformVersion async {
     final String version = await _channel.invokeMethod('getPlatformVersion');
     return version;
   }
 
-  double width,height,marginTop;
+  final double width, height, marginTop;
   final Duration duration;
   final Function(bool) onChange;
-  final IconData icon1,icon2;
-  final Color color1,color2,backgroundColor;
+  final IconData icon1, icon2;
+  final Color color1,
+      color2,
+      backgroundColor,
+      firstIconSelectedColor,
+      secondIconSelectedColor;
   final Curve curve;
 
-  IconSwitcher({@required this.width,@required this.height,@required this.marginTop,@required this.duration, this.onChange,
-    @required this.icon1, @required this.icon2, @required this.color1, @required this.color2,
-    @required this.backgroundColor, this.curve=Curves.bounceOut});
+  IconSwitcher(
+      {@required this.width,
+      @required this.height,
+      @required this.marginTop,
+      @required this.duration,
+      this.onChange,
+      @required this.icon1,
+      @required this.icon2,
+      @required this.color1,
+      @required this.color2,
+      @required this.backgroundColor,
+      this.firstIconSelectedColor = Colors.redAccent,
+      this.secondIconSelectedColor = Colors.orangeAccent,
+      this.curve = Curves.bounceOut});
 
   @override
-  State<StatefulWidget> createState(){
-
-    if(icon1==null || icon2==null || color1==null || color2==null || backgroundColor==null){
-      throw new iconException("Error in IconSwitcher. You missed to fill all required parameters");
+  State<StatefulWidget> createState() {
+    if (icon1 == null ||
+        icon2 == null ||
+        color1 == null ||
+        color2 == null ||
+        backgroundColor == null) {
+      throw new iconException(
+          "Error in IconSwitcher. You missed to fill all required parameters");
     }
-    return _iconswitcher(duration: duration,curve: curve);
+    return _iconswitcher(duration: duration, curve: curve);
   }
-
 }
 
-class _iconswitcher extends State<IconSwitcher> with TickerProviderStateMixin{
+class _iconswitcher extends State<IconSwitcher> with TickerProviderStateMixin {
   final Duration duration;
   final Curve curve;
+
   _iconswitcher({this.duration, this.curve});
 
   Animation<double> animation;
@@ -58,17 +74,14 @@ class _iconswitcher extends State<IconSwitcher> with TickerProviderStateMixin{
 
   @override
   void initState() {
-    controller =
-        AnimationController(duration: duration, vsync: this);
-    animation = Tween<double>(begin: 0, end: 1).animate(new CurvedAnimation(
-        parent: controller,
-        curve: curve
-    ))
-      ..addListener(() {
-        setState(() {
-          // The state that has changed here is the animation object’s value.
-        });
-      });
+    controller = AnimationController(duration: duration, vsync: this);
+    animation = Tween<double>(begin: 0, end: 1)
+        .animate(new CurvedAnimation(parent: controller, curve: curve))
+          ..addListener(() {
+            setState(() {
+              // The state that has changed here is the animation object’s value.
+            });
+          });
     controller.forward();
   }
 
@@ -76,7 +89,6 @@ class _iconswitcher extends State<IconSwitcher> with TickerProviderStateMixin{
 
   @override
   Widget build(BuildContext context) {
-
     Animatable<Color> iconColor1 = TweenSequence<Color>([
       TweenSequenceItem(
         weight: 1.0,
@@ -96,9 +108,9 @@ class _iconswitcher extends State<IconSwitcher> with TickerProviderStateMixin{
       ),
     ]);
 
-    double width=widget.width;
-    double height=widget.height;
-    double marginTop=widget.marginTop;
+    double width = widget.width;
+    double height = widget.height;
+    double marginTop = widget.marginTop;
 
     return Container(
       width: width,
@@ -110,18 +122,19 @@ class _iconswitcher extends State<IconSwitcher> with TickerProviderStateMixin{
             left: 0,
             top: 5,
             width: width,
-            height: height-10,
+            height: height - 10,
             child: Container(
               width: width,
-              height: height-20,
+              height: height - 20,
               decoration: BoxDecoration(
                   color: widget.backgroundColor,
-                  borderRadius: BorderRadius.circular(width/2)
-              ),
+                  borderRadius: BorderRadius.circular(width / 2)),
             ),
           ),
           Positioned(
-            left: left ? width/2*(1-animation.value): animation.value*(width / 2),
+            left: left
+                ? width / 2 * (1 - animation.value)
+                : animation.value * (width / 2),
             top: 0,
             height: height,
             width: width / 2,
@@ -130,7 +143,9 @@ class _iconswitcher extends State<IconSwitcher> with TickerProviderStateMixin{
               duration: duration,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: left ? Colors.pinkAccent : Colors.orange,
+                color: left
+                    ? widget.firstIconSelectedColor
+                    : widget.secondIconSelectedColor,
               ),
             ),
           ),
@@ -138,21 +153,24 @@ class _iconswitcher extends State<IconSwitcher> with TickerProviderStateMixin{
             left: 10,
             top: 10,
             width: width / 2 - 20,
-            height: height-20,
+            height: height - 20,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
                 ConstrainedBox(
                     constraints: BoxConstraints(
-                        maxHeight: height-20, maxWidth: width / 2 - 20),
+                        maxHeight: height - 20, maxWidth: width / 2 - 20),
                     child: IconButton(
                       padding: EdgeInsets.all(0),
                       color: Colors.transparent,
                       icon: Icon(
                         widget.icon1,
-                        color: left?iconColor2.evaluate(AlwaysStoppedAnimation(controller.value)):
-                        iconColor1.evaluate(AlwaysStoppedAnimation(controller.value)),
+                        color: left
+                            ? iconColor2.evaluate(
+                                AlwaysStoppedAnimation(controller.value))
+                            : iconColor1.evaluate(
+                                AlwaysStoppedAnimation(controller.value)),
                         size: 20,
                       ),
                       onPressed: () {
@@ -169,7 +187,7 @@ class _iconswitcher extends State<IconSwitcher> with TickerProviderStateMixin{
           ),
           Positioned(
             left: width / 2 + 10,
-            height: height-20,
+            height: height - 20,
             top: 10,
             width: width / 2 - 20,
             child: Row(
@@ -178,14 +196,17 @@ class _iconswitcher extends State<IconSwitcher> with TickerProviderStateMixin{
                 children: <Widget>[
                   ConstrainedBox(
                       constraints: BoxConstraints(
-                          maxHeight: height-20, maxWidth: width / 2 - 20),
+                          maxHeight: height - 20, maxWidth: width / 2 - 20),
                       child: IconButton(
                         padding: EdgeInsets.all(0),
                         color: Colors.transparent,
                         icon: Icon(
                           widget.icon2,
-                          color: !left?iconColor2.evaluate(AlwaysStoppedAnimation(controller.value)):
-                          iconColor1.evaluate(AlwaysStoppedAnimation(controller.value)),
+                          color: !left
+                              ? iconColor2.evaluate(
+                                  AlwaysStoppedAnimation(controller.value))
+                              : iconColor1.evaluate(
+                                  AlwaysStoppedAnimation(controller.value)),
                           size: 20,
                         ),
                         onPressed: () {
@@ -203,6 +224,4 @@ class _iconswitcher extends State<IconSwitcher> with TickerProviderStateMixin{
       ),
     );
   }
-
-
 }

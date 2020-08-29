@@ -1,7 +1,8 @@
 name: iconswitcher
 description: A plugin to create an icon switcher to put on the AppBar Widget
-version: 1.0.0
+version: 1.0.3
 homepage: https://github.com/andreamaranesi/iconswitcher
+
 
 environment:
   sdk: ">=2.7.0 <3.0.0"
@@ -10,6 +11,10 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  flutter_web_plugins:
+    sdk: flutter
+
+
 
 dev_dependencies:
   flutter_test:
@@ -20,19 +25,20 @@ dev_dependencies:
 
 # The following section is specific to Flutter.
 flutter:
-  # This section identifies this Flutter project as a plugin project.
-  # The 'pluginClass' and Android 'package' identifiers should not ordinarily
-  # be modified. They are used by the tooling to maintain consistency when
-  # adding or updating assets for this project.
   plugin:
     platforms:
-    # This plugin project was generated without specifying any
-    # platforms with the `--platform` argument. If you see the `fake_platform` map below, remove it and
-    # then add platforms following the instruction here:
-    # https://flutter.dev/docs/development/packages-and-plugins/developing-packages#plugin-platforms
-    # -------------------
-      some_platform:
-        pluginClass: somePluginClass
+      android:
+        package: com.example.iconswitcher
+        pluginClass: IconswitcherPlugin
+      ios:
+        pluginClass: IconswitcherPlugin
+      macos:
+        pluginClass: IconswitcherPlugin
+      web:
+        pluginClass: IconswitcherWeb
+        fileName: iconswitcher_web.dart
+
+
     # -------------------
 
   # To add assets to your plugin package, add an assets section, like this:
