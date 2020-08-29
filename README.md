@@ -5,7 +5,6 @@ A Flutter plugin that allows you to create an icon switcher on the AppBar Widget
 ![](https://dremardesign.com/media/iconswitcher.gif)
 
 
-
 ### PARAMETERS
 
 | NAME                    | DESCRIPTION                                                  | DEFAULT VALUE       |
