@@ -4,10 +4,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-class iconException implements Exception {
+class IconException implements Exception {
   final message;
 
-  iconException(this.message);
+  IconException(this.message);
 
   String toString() {
     if (message == null) return "Exception";
@@ -25,7 +25,7 @@ class IconSwitcher extends StatefulWidget {
 
   final double width, height, marginTop;
   final Duration duration;
-  final Function(bool) onChange;
+  final Function(bool)? onChange;
   final IconData icon1, icon2;
   final Color color1,
       color2,
@@ -34,46 +34,31 @@ class IconSwitcher extends StatefulWidget {
       secondIconSelectedColor;
   final Curve curve;
 
-  IconSwitcher(
-      {@required this.width,
-      @required this.height,
-      @required this.marginTop,
-      @required this.duration,
-      this.onChange,
-      @required this.icon1,
-      @required this.icon2,
-      @required this.color1,
-      @required this.color2,
-      @required this.backgroundColor,
+  IconSwitcher(this.width, this.height, this.marginTop, this.duration,
+      this.icon1, this.icon2, this.color1, this.color2, this.backgroundColor,
+      {this.onChange,
       this.firstIconSelectedColor = Colors.redAccent,
       this.secondIconSelectedColor = Colors.orangeAccent,
       this.curve = Curves.bounceOut});
 
   @override
   State<StatefulWidget> createState() {
-    if (icon1 == null ||
-        icon2 == null ||
-        color1 == null ||
-        color2 == null ||
-        backgroundColor == null) {
-      throw new iconException(
-          "Error in IconSwitcher. You missed to fill all required parameters");
-    }
-    return _iconswitcher(duration: duration, curve: curve);
+    return _IconSwitcher(duration, curve);
   }
 }
 
-class _iconswitcher extends State<IconSwitcher> with TickerProviderStateMixin {
+class _IconSwitcher extends State<IconSwitcher> with TickerProviderStateMixin {
   final Duration duration;
   final Curve curve;
 
-  _iconswitcher({this.duration, this.curve});
+  _IconSwitcher(this.duration, this.curve);
 
-  Animation<double> animation;
-  AnimationController controller;
+  late Animation<double> animation;
+  late AnimationController controller;
 
   @override
   void initState() {
+    super.initState();
     controller = AnimationController(duration: duration, vsync: this);
     animation = Tween<double>(begin: 0, end: 1)
         .animate(new CurvedAnimation(parent: controller, curve: curve))
@@ -89,7 +74,7 @@ class _iconswitcher extends State<IconSwitcher> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    Animatable<Color> iconColor1 = TweenSequence<Color>([
+    Animatable<Color?> iconColor1 = TweenSequence<Color?>([
       TweenSequenceItem(
         weight: 1.0,
         tween: ColorTween(
@@ -98,7 +83,7 @@ class _iconswitcher extends State<IconSwitcher> with TickerProviderStateMixin {
         ),
       ),
     ]);
-    Animatable<Color> iconColor2 = TweenSequence<Color>([
+    Animatable<Color?> iconColor2 = TweenSequence<Color?>([
       TweenSequenceItem(
         weight: 1.0,
         tween: ColorTween(
@@ -176,7 +161,7 @@ class _iconswitcher extends State<IconSwitcher> with TickerProviderStateMixin {
                       onPressed: () {
                         setState(() {
                           left = true;
-                          widget.onChange(true);
+                          if (widget.onChange != null) widget.onChange!(true);
                           controller.reset();
                           controller.forward();
                         });
@@ -212,7 +197,8 @@ class _iconswitcher extends State<IconSwitcher> with TickerProviderStateMixin {
                         onPressed: () {
                           setState(() {
                             left = false;
-                            widget.onChange(false);
+                            if (widget.onChange != null)
+                              widget.onChange!(false);
                             controller.reset();
                             controller.forward();
                           });

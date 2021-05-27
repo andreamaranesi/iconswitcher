@@ -1,6 +1,8 @@
+# # 2.0.0
+Null Safety and Added Windows Support
+
 # # 1.0.3
 Added parameters firstIconSelectedColor and secondIconSelectedColor
-
 
 # # 1.0.2
 Added support to each platform

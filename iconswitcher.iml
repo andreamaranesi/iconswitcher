@@ -11,6 +11,9 @@
       <excludeFolder url="file://$MODULE_DIR$/example/.dart_tool" />
       <excludeFolder url="file://$MODULE_DIR$/example/.pub" />
       <excludeFolder url="file://$MODULE_DIR$/example/build" />
+      <excludeFolder url="file://$MODULE_DIR$/example/windows/flutter/ephemeral/.plugin_symlinks/iconswitcher/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/example/windows/flutter/ephemeral/.plugin_symlinks/iconswitcher/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/example/windows/flutter/ephemeral/.plugin_symlinks/iconswitcher/build" />
       <excludeFolder url="file://$MODULE_DIR$/iconswitcher/.dart_tool" />
       <excludeFolder url="file://$MODULE_DIR$/iconswitcher/.pub" />
       <excludeFolder url="file://$MODULE_DIR$/iconswitcher/build" />

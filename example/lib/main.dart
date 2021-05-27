@@ -2,18 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:iconswitcher/iconswitcher.dart';
 
 void main() {
-  runApp(screen());
+  runApp(Screen());
 }
 
-
-class screen extends StatefulWidget {
+class Screen extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
-    return _screen();
+    return _Screen();
   }
 }
 
-class _screen extends State<screen> with TickerProviderStateMixin {
+class _Screen extends State<Screen> with TickerProviderStateMixin {
   bool left = true;
   Duration duration = Duration(milliseconds: 400);
 
@@ -25,47 +24,47 @@ class _screen extends State<screen> with TickerProviderStateMixin {
 
     return MaterialApp(
         debugShowCheckedModeBanner: false,
-        home:Scaffold(
+        home: Scaffold(
           backgroundColor: Colors.white,
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        title: Text(
-          "Title",
-        ),
-        actions: <Widget>[
-          IconSwitcher(
-            width: width,
-            height: height,
-            marginTop: marginTop,
-            color1: Colors.purple,
-            color2: Colors.white,
-            icon1: Icons.satellite,
-            icon2: Icons.content_copy,
-            firstIconSelectedColor: Colors.redAccent,
-            secondIconSelectedColor: Colors.orangeAccent,
-            backgroundColor: Colors.black,
+          appBar: AppBar(
+            backgroundColor: Colors.white,
+            title: Text(
+              "Title",
+            ),
+            actions: <Widget>[
+              IconSwitcher(
+                width,
+                height,
+                marginTop,
+                duration,
+                Icons.satellite,
+                Icons.content_copy,
+                Colors.purple,
+                Colors.white,
+                Colors.black,
+                firstIconSelectedColor: Colors.redAccent,
+                secondIconSelectedColor: Colors.orangeAccent,
+                onChange: (bool result) {
+                  setState(() {
+                    left = result;
+                  });
+                },
+              )
+            ],
+          ),
+          body: AnimatedCrossFade(
+            firstChild: Container(
+              color: Colors.black54,
+            ),
+            secondChild: Container(
+              color: Colors.orange,
+            ),
             duration: duration,
-            onChange: (bool result) {
-              setState(() {
-                left = result;
-              });
-            },
-          )
-        ],
-      ),
-      body: AnimatedCrossFade(
-        firstChild: Container(
-          color: Colors.black54,
-        ),
-        secondChild: Container(
-          color: Colors.orange,
-        ),
-        duration: duration,
-        crossFadeState:
-        left ? CrossFadeState.showFirst : CrossFadeState.showSecond,
-        firstCurve: Curves.bounceOut,
-        secondCurve: Curves.bounceOut,
-      ),
-    ));
+            crossFadeState:
+                left ? CrossFadeState.showFirst : CrossFadeState.showSecond,
+            firstCurve: Curves.bounceOut,
+            secondCurve: Curves.bounceOut,
+          ),
+        ));
   }
 }
