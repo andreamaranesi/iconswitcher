@@ -1,3 +1,9 @@
+# # 2.0.2
+Rollback to NAMED PARAMETERS
+
+# # 2.0.1
+Formatted code using dartfmt
+
 # # 2.0.0
 Null Safety and Added Windows Support
 

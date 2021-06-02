@@ -34,9 +34,17 @@ class IconSwitcher extends StatefulWidget {
       secondIconSelectedColor;
   final Curve curve;
 
-  IconSwitcher(this.width, this.height, this.marginTop, this.duration,
-      this.icon1, this.icon2, this.color1, this.color2, this.backgroundColor,
-      {this.onChange,
+  IconSwitcher(
+      {required this.width,
+      required this.height,
+      required this.marginTop,
+      required this.duration,
+      required this.icon1,
+      required this.icon2,
+      required this.color1,
+      required this.color2,
+      required this.backgroundColor,
+      this.onChange,
       this.firstIconSelectedColor = Colors.redAccent,
       this.secondIconSelectedColor = Colors.orangeAccent,
       this.curve = Curves.bounceOut});
