@@ -33,6 +33,8 @@ class IconSwitcher extends StatefulWidget {
       firstIconSelectedColor,
       secondIconSelectedColor;
   final Curve curve;
+  final bool enabled;
+  final bool initialLeft;
 
   IconSwitcher(
       {required this.width,
@@ -47,6 +49,8 @@ class IconSwitcher extends StatefulWidget {
       this.onChange,
       this.firstIconSelectedColor = Colors.redAccent,
       this.secondIconSelectedColor = Colors.orangeAccent,
+      this.enabled = true,
+      this.initialLeft = true,
       this.curve = Curves.bounceOut});
 
   @override
@@ -76,9 +80,10 @@ class _IconSwitcher extends State<IconSwitcher> with TickerProviderStateMixin {
             });
           });
     controller.forward();
+    left = widget.initialLeft;
   }
 
-  bool left = true;
+  late bool left;
 
   @override
   Widget build(BuildContext context) {
@@ -166,14 +171,16 @@ class _IconSwitcher extends State<IconSwitcher> with TickerProviderStateMixin {
                                 AlwaysStoppedAnimation(controller.value)),
                         size: 20,
                       ),
-                      onPressed: () {
-                        setState(() {
-                          left = true;
-                          if (widget.onChange != null) widget.onChange!(true);
-                          controller.reset();
-                          controller.forward();
-                        });
-                      },
+                      onPressed: widget.enabled
+                          ? () {
+                              setState(() {
+                                left = true;
+                                if (widget.onChange != null) widget.onChange!(true);
+                                controller.reset();
+                                controller.forward();
+                              });
+                            }
+                          : null,
                     ))
               ],
             ),
@@ -202,15 +209,17 @@ class _IconSwitcher extends State<IconSwitcher> with TickerProviderStateMixin {
                                   AlwaysStoppedAnimation(controller.value)),
                           size: 20,
                         ),
-                        onPressed: () {
-                          setState(() {
-                            left = false;
-                            if (widget.onChange != null)
-                              widget.onChange!(false);
-                            controller.reset();
-                            controller.forward();
-                          });
-                        },
+                        onPressed: widget.enabled
+                            ? () {
+                                setState(() {
+                                  left = false;
+                                  if (widget.onChange != null)
+                                    widget.onChange!(false);
+                                  controller.reset();
+                                  controller.forward();
+                                });
+                              }
+                            : null,
                       ))
                 ]),
           ),
